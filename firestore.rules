@@ -1,0 +1,113 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Test connection document allowed for health check
+    match /test/{docId} {
+      allow read: if true;
+    }
+
+    // Users directory: authenticated users can query to find contacts
+    // Users can only create or update their own profile & presence
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isOwner(userId)
+                    && request.resource.data.uid == userId
+                    && request.resource.data.displayName is string
+                    && request.resource.data.displayName.size() <= 64
+                    && request.resource.data.email is string
+                    && request.resource.data.email.size() <= 128
+                    && request.resource.data.status in ['online', 'offline'];
+      allow update: if isOwner(userId)
+                    && request.resource.data.uid == userId
+                    && request.resource.data.status in ['online', 'offline'];
+      allow delete: if false;
+    }
+
+    function isChatParticipant(cId) {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/chats/$(cId))
+        && (request.auth.uid in get(/databases/$(database)/documents/chats/$(cId)).data.participants);
+    }
+
+    // Conversations / Chats
+    match /chats/{chatId} {
+      allow get: if isSignedIn() && (resource == null || (request.auth.uid in resource.data.participants));
+      allow list: if isSignedIn() && (request.auth.uid in resource.data.participants);
+      allow create: if isSignedIn()
+                    && (request.auth.uid in request.resource.data.participants)
+                    && request.resource.data.participants.size() == 2;
+      allow update: if isSignedIn()
+                    && (request.auth.uid in resource.data.participants)
+                    && request.resource.data.participants == resource.data.participants;
+      allow delete: if isSignedIn()
+                    && (request.auth.uid in resource.data.participants);
+
+      // Messages in chat room
+      match /messages/{messageId} {
+        allow read: if isChatParticipant(chatId);
+        allow create: if isChatParticipant(chatId)
+                      && request.resource.data.senderId == request.auth.uid
+                      && request.resource.data.chatId == chatId
+                      && request.resource.data.text is string
+                      && request.resource.data.text.size() <= 4000;
+        allow update: if isChatParticipant(chatId)
+                      && (
+                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read', 'reactions'])
+                        || (
+                          request.auth.uid == resource.data.senderId
+                          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['text', 'isEdited', 'editedAt', 'read', 'reactions'])
+                          && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['text']) || (request.resource.data.text is string && request.resource.data.text.size() <= 4000))
+                        )
+                      );
+        allow delete: if isSignedIn()
+                      && (
+                        request.auth.uid == resource.data.senderId
+                        || isChatParticipant(chatId)
+                      );
+      }
+    }
+
+    // Friendships & Friend Requests
+    match /friendships/{friendshipId} {
+      allow get: if isSignedIn() && (resource == null || (request.auth.uid in resource.data.users));
+      allow list: if isSignedIn() && (request.auth.uid in resource.data.users);
+      allow create: if isSignedIn() 
+                    && (request.auth.uid in request.resource.data.users)
+                    && request.resource.data.requesterId == request.auth.uid;
+      allow update: if isSignedIn() 
+                    && (
+                      (resource != null && (request.auth.uid in resource.data.users))
+                      || (request.auth.uid in request.resource.data.users)
+                    );
+      allow delete: if isSignedIn() 
+                    && (request.auth.uid in resource.data.users);
+    }
+
+    // User Blocks
+    match /blocks/{blockId} {
+      allow get: if isSignedIn() && (resource == null || request.auth.uid == resource.data.blockerId || request.auth.uid == resource.data.blockedId);
+      allow list: if isSignedIn() && (request.auth.uid == resource.data.blockerId || request.auth.uid == resource.data.blockedId);
+      allow create: if isSignedIn() && request.auth.uid == request.resource.data.blockerId;
+      allow delete: if isSignedIn() && request.auth.uid == resource.data.blockerId;
+      allow update: if false;
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "entities": {
+    "user": {
+      "title": "User",
+      "description": "User profile with display name, email, avatar, and online status",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "email": { "type": "string", "maxLength": 128 },
+        "photoURL": { "type": "string", "maxLength": 200000 },
+        "status": { "type": "string", "enum": ["online", "offline"] },
+        "lastSeen": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "bio": { "type": "string", "maxLength": 256 }
+      },
+      "required": ["uid", "displayName", "email", "status"]
+    },
+    "chat": {
+      "title": "Chat",
+      "description": "1-on-1 real-time conversation between two users",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "participants": { "type": "array", "description": "Array of participant UIDs" },
+        "participantDetails": { "type": "object", "description": "Details of both participants for fast rendering" },
+        "lastMessage": { "type": "object", "description": "Last message preview snippet" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "typing": { "type": "object", "description": "Typing status flags mapped by UID" },
+        "loveMode": { "type": "boolean", "description": "Romantic love theme active flag" },
+        "humorMode": { "type": "boolean", "description": "Joyful yellow humor theme active flag" },
+        "midnightMode": { "type": "boolean", "description": "Late-night sultry burgundy and purple theme active flag" }
+      },
+      "required": ["id", "participants"]
+    },
+    "message": {
+      "title": "Message",
+      "description": "Individual message inside a chat room",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "chatId": { "type": "string", "maxLength": 128 },
+        "senderId": { "type": "string", "maxLength": 128 },
+        "receiverId": { "type": "string", "maxLength": 128 },
+        "text": { "type": "string", "minLength": 1, "maxLength": 4000 },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "read": { "type": "boolean" },
+        "reactions": { "type": "object", "description": "Map of userId to selected emoji reaction" },
+        "replyTo": { "type": "object", "description": "Quoted message snippet being replied to" },
+        "audioUrl": { "type": "string", "maxLength": 500000, "description": "Base64 data URL for voice audio message" },
+        "audioDuration": { "type": "number", "description": "Duration of voice message in seconds" },
+        "isEdited": { "type": "boolean", "description": "Whether this message was edited" },
+        "editedAt": { "type": "string", "format": "date-time", "description": "Timestamp when message was last edited" }
+      },
+      "required": ["chatId", "senderId", "receiverId", "text", "read"]
+    },
+    "friendship": {
+      "title": "Friendship",
+      "description": "Friendship relation or friend request between two users",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 260 },
+        "users": { "type": "array", "description": "Array of both user UIDs" },
+        "requesterId": { "type": "string", "maxLength": 128 },
+        "addresseeId": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "users", "requesterId", "addresseeId", "status"]
+    },
+    "block": {
+      "title": "Block",
+      "description": "User block record to prevent communication",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 260 },
+        "blockerId": { "type": "string", "maxLength": 128 },
+        "blockedId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "blockerId", "blockedId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/user" },
+      "description": "Public user profile and presence document"
+    },
+    "/chats/{chatId}": {
+      "schema": { "$ref": "#/entities/chat" },
+      "description": "Chat conversations indexed by chatId"
+    },
+    "/chats/{chatId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/message" },
+      "description": "Chronological messages subcollection for each chat"
+    },
+    "/friendships/{friendshipId}": {
+      "schema": { "$ref": "#/entities/friendship" },
+      "description": "Friendships and friend requests between users"
+    },
+    "/blocks/{blockId}": {
+      "schema": { "$ref": "#/entities/block" },
+      "description": "Blocked user relationships"
+    }
+  }
+}
