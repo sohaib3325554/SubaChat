@@ -8,12 +8,7 @@
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   }
 
-  html, body, #root {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
+  html, body {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
     text-rendering: optimizeLegibility;

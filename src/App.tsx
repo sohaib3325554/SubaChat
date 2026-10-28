@@ -71,7 +71,7 @@ function ChatDashboard({
 
   if (!userProfile) {
     return (
-      <div className="w-full max-w-full h-full min-h-screen h-[100dvh] flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white p-4">
+      <div className="h-screen w-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white">
         <Loader2 className="w-8 h-8 animate-spin text-indigo-600 dark:text-indigo-400 mb-3" />
         <p className="text-sm font-semibold">Loading profile...</p>
       </div>
@@ -79,7 +79,7 @@ function ChatDashboard({
   }
 
   return (
-    <div className="w-full max-w-full h-full min-h-screen h-[100dvh] flex overflow-hidden bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
+    <div className="h-screen w-screen flex overflow-hidden bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       
       {/* Sidebar: Left Side */}
       <div

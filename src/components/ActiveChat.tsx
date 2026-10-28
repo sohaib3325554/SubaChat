@@ -760,7 +760,7 @@ export const ActiveChat: React.FC<ActiveChatProps> = ({
       
       {/* Top Chat Header */}
       <header 
-        className={`px-3 sm:px-4 py-2.5 sm:py-3 border-b flex items-center justify-between shadow-xs relative z-20 transition-colors w-full max-w-full ${
+        className={`px-4 py-3 border-b flex items-center justify-between shadow-xs relative z-10 transition-colors ${
           isHumorMode
             ? 'bg-white/85 dark:bg-slate-900/90 backdrop-blur-md border-amber-200 dark:border-amber-900/60 shadow-amber-500/5'
             : isLoveMode 
@@ -770,11 +770,11 @@ export const ActiveChat: React.FC<ActiveChatProps> = ({
                 : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800'
         }`}
       >
-        <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1 mr-2">
+        <div className="flex items-center gap-3">
           {/* Back button on mobile */}
           <button
             onClick={onBack}
-            className="md:hidden p-2 -ml-1 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0"
+            className="md:hidden p-2 -ml-1 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"
             title="Back to conversation list"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -802,403 +802,189 @@ export const ActiveChat: React.FC<ActiveChatProps> = ({
             />
           </div>
 
-          <div className="min-w-0 flex-1">
-            <h2 className={`font-bold text-sm sm:text-base flex items-center gap-1.5 min-w-0 ${isMidnightMode ? 'text-purple-100' : 'text-slate-900 dark:text-white'}`}>
-              <span className="truncate max-w-[120px] xs:max-w-[160px] sm:max-w-[220px] md:max-w-none">{partnerName}</span>
+          <div>
+            <h2 className={`font-bold text-sm flex items-center gap-2 flex-wrap ${isMidnightMode ? 'text-purple-100' : 'text-slate-900 dark:text-white'}`}>
+              <span>{partnerName}</span>
               {isBlockedByMe && (
-                <span className="shrink-0 text-[10px] text-rose-600 dark:text-rose-400 font-bold px-1.5 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-900/50">
+                <span className="text-xs text-rose-600 dark:text-rose-400 font-bold px-1.5 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-900/50">
                   🚫 Blocked
                 </span>
               )}
               {!isFriend && !isBlockedByMe && (
-                <span className="shrink-0 text-[10px] text-amber-600 dark:text-amber-400 font-bold px-1.5 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-900/50">
+                <span className="text-xs text-amber-600 dark:text-amber-400 font-bold px-1.5 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-900/50">
                   Not Friends
                 </span>
               )}
               {isHumorMode && (
-                <span className="shrink-0 text-[10px] text-amber-700 dark:text-amber-300 font-bold px-1.5 py-0.5 rounded-md bg-amber-100/90 dark:bg-amber-950/60 border border-amber-300/80 dark:border-amber-900/50 flex items-center gap-1">
-                  <span>😂 Humor</span>
+                <span className="text-xs text-amber-600 dark:text-amber-400 font-bold px-1.5 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-900/50 flex items-center gap-1">
+                  <span>😂 Humor Mode</span>
                 </span>
               )}
               {isLoveMode && (
-                <span className="shrink-0 text-[10px] text-rose-500 font-bold px-1.5 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-900/50 flex items-center gap-1">
-                  <Heart className="w-2.5 h-2.5 fill-rose-500" />
-                  <span>Love</span>
+                <span className="text-xs text-rose-500 font-bold px-1.5 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-900/50 flex items-center gap-1">
+                  <Heart className="w-3 h-3 fill-rose-500" />
+                  <span>Love Mode</span>
                 </span>
               )}
               {isMidnightMode && (
-                <span className="shrink-0 text-[10px] text-purple-300 font-bold px-1.5 py-0.5 rounded-md bg-purple-950/80 border border-purple-800/70 flex items-center gap-1 shadow-xs">
-                  <span>🌚 Midnight</span>
+                <span className="text-xs text-purple-300 font-bold px-1.5 py-0.5 rounded-md bg-purple-950/80 border border-purple-800/70 flex items-center gap-1 shadow-xs">
+                  <span>🌚 Midnight Mode</span>
                 </span>
               )}
             </h2>
-            <div className="flex items-center gap-1.5 text-xs truncate">
+            <div className="flex items-center gap-1.5 text-xs">
               {isPartnerTyping ? (
-                <span className="text-emerald-600 dark:text-emerald-400 font-bold animate-pulse flex items-center gap-1.5 truncate">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping shrink-0" />
+                <span className="text-emerald-600 dark:text-emerald-400 font-bold animate-pulse flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                   typing...
                 </span>
               ) : isPartnerOnline ? (
-                <span className="text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1 truncate">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                <span className="text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                   Online
                 </span>
               ) : (
-                <span className={`truncate ${isMidnightMode ? 'text-purple-400/80' : 'text-slate-400'}`}>Offline</span>
+                <span className={isMidnightMode ? 'text-purple-400/80' : 'text-slate-400'}>Offline</span>
               )}
             </div>
           </div>
         </div>
 
         {/* Header Right Actions */}
-        <div className="flex items-center gap-1.5 shrink-0">
-          {/* Quick Active Mode Pill (for desktop >= sm) */}
-          {isHumorMode && (
+        <div className="flex items-center gap-1 sm:gap-1.5">
+          {/* HUMOR MODE TOGGLE BUTTON */}
+          <button
+            onClick={() => toggleHumorMode(chatId, !isHumorMode)}
+            type="button"
+            title={isHumorMode ? 'Disable Humor Mode' : 'Enable Humor Mode (Yellow Theme & Laugh Emojis)'}
+            className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs ${
+              isHumorMode
+                ? 'bg-amber-400 text-slate-950 shadow-amber-400/30 ring-2 ring-amber-400/70 scale-102 font-extrabold'
+                : 'bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 dark:hover:bg-amber-900/50 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-900/40'
+            }`}
+          >
+            <span>😂</span>
+            <span className="hidden sm:inline">{isHumorMode ? 'Humor ON' : 'Humor Mode'}</span>
+          </button>
+
+          {/* LOVE MODE TOGGLE BUTTON */}
+          <button
+            onClick={() => toggleLoveMode(chatId, !isLoveMode)}
+            type="button"
+            title={isLoveMode ? 'Disable Love Mode' : 'Enable Love Mode Theme'}
+            className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs ${
+              isLoveMode
+                ? 'bg-rose-500 text-white shadow-rose-500/25 ring-2 ring-rose-400/60 scale-102'
+                : 'bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-300 border border-rose-200/60 dark:border-rose-900/40'
+            }`}
+          >
+            <Heart className={`w-3.5 h-3.5 ${isLoveMode ? 'fill-white' : 'text-rose-500'}`} />
+            <span className="hidden sm:inline">{isLoveMode ? 'Love ON' : 'Love Mode'}</span>
+          </button>
+
+          {/* MIDNIGHT MODE TOGGLE BUTTON */}
+          <button
+            onClick={() => toggleMidnightMode(chatId, !isMidnightMode)}
+            type="button"
+            title={isMidnightMode ? 'Disable Midnight Mode' : 'Enable Midnight Mode (Burgundy & Purple Theme)'}
+            className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs ${
+              isMidnightMode
+                ? 'bg-gradient-to-r from-[#700b34] to-[#6b21a8] text-white shadow-purple-950/40 ring-2 ring-purple-500/70 scale-102 font-extrabold'
+                : 'bg-purple-950/30 hover:bg-purple-900/50 text-purple-300 border border-purple-800/40'
+            }`}
+          >
+            <span>🌚</span>
+            <span className="hidden sm:inline">{isMidnightMode ? 'Midnight ON' : 'Midnight Mode'}</span>
+          </button>
+
+          {onOpenGmail && partnerEmail && (
             <button
-              onClick={() => toggleHumorMode(chatId, false)}
-              type="button"
-              title="Humor Mode active - Click to turn off or use menu"
-              className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 shadow-xs shadow-amber-400/30 hover:bg-amber-300 transition-colors cursor-pointer"
+              onClick={() => onOpenGmail(partnerEmail)}
+              title={`Send Gmail message to ${partnerName}`}
+              className="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors flex items-center gap-1.5 cursor-pointer"
             >
-              <span>😂</span>
-              <span>Humor</span>
-            </button>
-          )}
-          {isLoveMode && (
-            <button
-              onClick={() => toggleLoveMode(chatId, false)}
-              type="button"
-              title="Love Mode active - Click to turn off or use menu"
-              className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-bold bg-rose-500 text-white shadow-xs shadow-rose-500/25 hover:bg-rose-600 transition-colors cursor-pointer"
-            >
-              <Heart className="w-3 h-3 fill-white" />
-              <span>Love</span>
-            </button>
-          )}
-          {isMidnightMode && (
-            <button
-              onClick={() => toggleMidnightMode(chatId, false)}
-              type="button"
-              title="Midnight Mode active - Click to turn off or use menu"
-              className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-bold bg-gradient-to-r from-[#700b34] to-[#6b21a8] text-white shadow-xs shadow-purple-950/40 hover:opacity-90 transition-opacity cursor-pointer"
-            >
-              <span>🌚</span>
-              <span>Midnight</span>
+              <Mail className="w-3.5 h-3.5" />
+              <span className="hidden lg:inline">Email</span>
             </button>
           )}
 
-          {/* Vertical 3-dots Menu Button (Present on both PC and mobile app) */}
+          <button
+            onClick={() => setSoundEnabled(!soundEnabled)}
+            title={soundEnabled ? 'Mute audio notifications' : 'Enable audio notifications'}
+            className="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            {soundEnabled ? (
+              <Volume2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+            ) : (
+              <VolumeX className="w-4 h-4 text-slate-400" />
+            )}
+          </button>
+
+          {/* Options Menu: Block / Unblock / Remove Friend */}
           <div className="relative" data-options-menu>
             <button
               onClick={() => setShowOptionsMenu(!showOptionsMenu)}
-              type="button"
-              title="Chat menu: Modes, Mute, Email, Block, Remove Friend, Delete Conversation"
-              aria-label="Chat options menu"
-              className={`p-2 rounded-xl transition-all cursor-pointer flex items-center justify-center ${
-                showOptionsMenu
-                  ? isMidnightMode
-                    ? 'bg-purple-900/80 text-purple-100 ring-2 ring-purple-600/50'
-                    : isHumorMode
-                      ? 'bg-amber-200 dark:bg-amber-900/80 text-amber-950 dark:text-amber-100 ring-2 ring-amber-400'
-                      : isLoveMode
-                        ? 'bg-pink-200 dark:bg-pink-900/80 text-pink-950 dark:text-pink-100 ring-2 ring-pink-400'
-                        : 'bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white'
-                  : isMidnightMode
-                    ? 'text-purple-300 hover:text-purple-100 hover:bg-purple-900/50'
-                    : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
-              }`}
+              title="More options"
+              className="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
-              <MoreVertical className="w-5 h-5 stroke-[2.2]" />
+              <MoreVertical className="w-4 h-4" />
             </button>
 
-            {/* Backdrop overlay so tapping anywhere outside or over messages dismisses the menu */}
             {showOptionsMenu && (
-              <div 
-                className="fixed inset-0 z-40 bg-black/25 dark:bg-black/40 backdrop-blur-xs transition-opacity"
-                onClick={() => setShowOptionsMenu(false)}
-              />
-            )}
-
-            {/* Floating Menu Appearing Over Messages in Both PC & Mobile */}
-            {showOptionsMenu && (
-              <div
-                className={`absolute right-0 top-full mt-2 w-72 sm:w-80 max-w-[calc(100vw-1.5rem)] rounded-2xl shadow-2xl border z-50 py-2 animate-in fade-in zoom-in-95 duration-150 backdrop-blur-md overflow-hidden ${
-                  isMidnightMode
-                    ? 'bg-[#1b0217]/95 border-purple-800 text-purple-100 shadow-purple-950/80 divide-purple-900/60'
-                    : isHumorMode
-                      ? 'bg-white/95 dark:bg-slate-900/95 border-amber-300 dark:border-amber-800/80 text-slate-900 dark:text-white shadow-amber-500/10 divide-amber-100 dark:divide-amber-900/40'
-                      : isLoveMode
-                        ? 'bg-white/95 dark:bg-slate-900/95 border-pink-200 dark:border-pink-800/80 text-slate-900 dark:text-white shadow-pink-500/10 divide-pink-100 dark:divide-pink-900/40'
-                        : 'bg-white/95 dark:bg-slate-900/95 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-2xl divide-slate-100 dark:divide-slate-800/80'
-                } divide-y`}
-              >
-                {/* 1. CHAT MODES SECTION */}
-                <div className="p-2 space-y-1">
-                  <div className="px-2.5 py-1 flex items-center justify-between text-[10px] font-extrabold uppercase tracking-wider opacity-70">
-                    <span>Chat Mood / Modes</span>
-                    <span className="text-[9px] lowercase font-semibold opacity-75">tap to switch</span>
-                  </div>
-
-                  {/* Standard Mode */}
+              <div className="absolute right-0 top-full mt-1.5 w-48 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 py-1.5 z-50 text-xs animate-in fade-in zoom-in-95 duration-100">
+                {isBlockedByMe ? (
                   <button
-                    type="button"
-                    onClick={() => {
+                    onClick={async () => {
                       setShowOptionsMenu(false);
-                      toggleHumorMode(chatId, false);
-                      toggleLoveMode(chatId, false);
-                      toggleMidnightMode(chatId, false);
+                      if (partnerId) await unblockUser(currentUser.uid, partnerId);
                     }}
-                    className={`w-full px-2.5 py-2 rounded-xl text-left flex items-center justify-between transition-colors cursor-pointer ${
-                      !isHumorMode && !isLoveMode && !isMidnightMode
-                        ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 font-bold'
-                        : 'hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
-                    }`}
+                    className="w-full px-3 py-2 text-left hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2 text-slate-700 dark:text-slate-200 cursor-pointer font-medium"
                   >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-sm shrink-0">
-                        💬
-                      </span>
-                      <div className="min-w-0">
-                        <div className="text-xs font-semibold">Standard Mode</div>
-                        <div className="text-[10px] opacity-60 truncate">Default clean chat</div>
-                      </div>
-                    </div>
-                    {!isHumorMode && !isLoveMode && !isMidnightMode && (
-                      <span className="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 stroke-[3]" />
-                      </span>
-                    )}
+                    <Check className="w-3.5 h-3.5 text-emerald-500" />
+                    <span>Unblock Contact</span>
                   </button>
-
-                  {/* Humor Mode */}
+                ) : (
                   <button
-                    type="button"
-                    onClick={() => {
+                    onClick={async () => {
                       setShowOptionsMenu(false);
-                      toggleHumorMode(chatId, !isHumorMode);
+                      if (confirm(`Block ${partnerName}? You will not be able to message each other.`)) {
+                        if (partnerId) await blockUser(currentUser.uid, partnerId);
+                      }
                     }}
-                    className={`w-full px-2.5 py-2 rounded-xl text-left flex items-center justify-between transition-colors cursor-pointer ${
-                      isHumorMode
-                        ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 font-bold'
-                        : 'hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
-                    }`}
+                    className="w-full px-3 py-2 text-left hover:bg-rose-50 dark:hover:bg-rose-950/40 flex items-center gap-2 text-rose-600 dark:text-rose-400 cursor-pointer font-medium"
                   >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 flex items-center justify-center text-sm shrink-0">
-                        😂
-                      </span>
-                      <div className="min-w-0">
-                        <div className="text-xs font-semibold">Humor Mode</div>
-                        <div className="text-[10px] opacity-60 truncate">Yellow theme, jokes &amp; witty vibe</div>
-                      </div>
-                    </div>
-                    {isHumorMode && (
-                      <span className="w-5 h-5 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 stroke-[3]" />
-                      </span>
-                    )}
+                    <Ban className="w-3.5 h-3.5" />
+                    <span>Block Contact</span>
                   </button>
+                )}
 
-                  {/* Love Mode */}
+                {isFriend && (
                   <button
-                    type="button"
-                    onClick={() => {
+                    onClick={async () => {
                       setShowOptionsMenu(false);
-                      toggleLoveMode(chatId, !isLoveMode);
+                      if (confirm(`Remove ${partnerName} from your friends list?`)) {
+                        if (partnerId) await removeFriend(currentUser.uid, partnerId);
+                      }
                     }}
-                    className={`w-full px-2.5 py-2 rounded-xl text-left flex items-center justify-between transition-colors cursor-pointer ${
-                      isLoveMode
-                        ? 'bg-pink-100 dark:bg-pink-950/60 text-rose-900 dark:text-pink-200 font-bold'
-                        : 'hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
-                    }`}
+                    className="w-full px-3 py-2 text-left hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2 text-slate-600 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800/80 cursor-pointer font-medium"
                   >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="w-7 h-7 rounded-lg bg-pink-100 dark:bg-pink-900/60 text-rose-600 flex items-center justify-center text-sm shrink-0">
-                        💖
-                      </span>
-                      <div className="min-w-0">
-                        <div className="text-xs font-semibold">Love Mode</div>
-                        <div className="text-[10px] opacity-60 truncate">Sweet romantic pink &amp; flutters</div>
-                      </div>
-                    </div>
-                    {isLoveMode && (
-                      <span className="w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 stroke-[3]" />
-                      </span>
-                    )}
+                    <UserX className="w-3.5 h-3.5 text-slate-400" />
+                    <span>Remove Friend</span>
                   </button>
+                )}
 
-                  {/* Midnight Mode */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowOptionsMenu(false);
-                      toggleMidnightMode(chatId, !isMidnightMode);
-                    }}
-                    className={`w-full px-2.5 py-2 rounded-xl text-left flex items-center justify-between transition-colors cursor-pointer ${
-                      isMidnightMode
-                        ? 'bg-purple-900/60 text-purple-100 font-bold'
-                        : 'hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="w-7 h-7 rounded-lg bg-purple-900/80 text-purple-200 flex items-center justify-center text-sm shrink-0">
-                        🌚
-                      </span>
-                      <div className="min-w-0">
-                        <div className="text-xs font-semibold">Midnight Mode</div>
-                        <div className="text-[10px] opacity-60 truncate">Burgundy &amp; purple sultry vibe</div>
-                      </div>
-                    </div>
-                    {isMidnightMode && (
-                      <span className="w-5 h-5 rounded-full bg-purple-500 text-white flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 stroke-[3]" />
-                      </span>
-                    )}
-                  </button>
-                </div>
-
-                {/* 2. AUDIO & EMAIL CONTROLS */}
-                <div className="p-2 space-y-1">
-                  {/* Mute Toggle */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSoundEnabled(!soundEnabled);
-                    }}
-                    className="w-full px-2.5 py-2 rounded-xl text-left flex items-center justify-between hover:bg-slate-100/70 dark:hover:bg-slate-800/70 transition-colors cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
-                        soundEnabled ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400' : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
-                      }`}>
-                        {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-                      </span>
-                      <div className="min-w-0">
-                        <div className="text-xs font-semibold">
-                          {soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
-                        </div>
-                        <div className="text-[10px] opacity-60 truncate">
-                          {soundEnabled ? 'Notification sounds active' : 'Notifications muted'}
-                        </div>
-                      </div>
-                    </div>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                      soundEnabled 
-                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300' 
-                        : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
-                    }`}>
-                      {soundEnabled ? 'ON' : 'OFF'}
-                    </span>
-                  </button>
-
-                  {/* Send Email */}
-                  {partnerEmail ? (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowOptionsMenu(false);
-                        if (onOpenGmail) {
-                          onOpenGmail(partnerEmail);
-                        } else {
-                          window.location.href = `mailto:${partnerEmail}`;
-                        }
-                      }}
-                      className="w-full px-2.5 py-2 rounded-xl text-left flex items-center gap-2.5 hover:bg-slate-100/70 dark:hover:bg-slate-800/70 transition-colors cursor-pointer text-slate-800 dark:text-slate-100"
-                    >
-                      <span className="w-7 h-7 rounded-lg bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
-                        <Mail className="w-4 h-4" />
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <div className="text-xs font-semibold">Send Email</div>
-                        <div className="text-[10px] opacity-60 truncate">{partnerEmail}</div>
-                      </div>
-                    </button>
-                  ) : (
-                    <div className="px-2.5 py-2 flex items-center gap-2.5 opacity-50 cursor-not-allowed">
-                      <span className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center shrink-0">
-                        <Mail className="w-4 h-4" />
-                      </span>
-                      <div className="min-w-0">
-                        <div className="text-xs font-semibold">Email Not Available</div>
-                        <div className="text-[10px] opacity-60">No email on profile</div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* 3. CONTACT & SAFETY (BLOCK & REMOVE FRIEND) */}
-                <div className="p-2 space-y-1">
-                  {isBlockedByMe ? (
-                    <button
-                      type="button"
-                      onClick={async () => {
-                        setShowOptionsMenu(false);
-                        if (partnerId) await unblockUser(currentUser.uid, partnerId);
-                      }}
-                      className="w-full px-2.5 py-2 rounded-xl text-left flex items-center gap-2.5 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 transition-colors cursor-pointer font-semibold text-xs"
-                    >
-                      <span className="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center shrink-0">
-                        <Check className="w-4 h-4 stroke-[3]" />
-                      </span>
-                      <span>Unblock Contact</span>
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={async () => {
-                        setShowOptionsMenu(false);
-                        if (confirm(`Block ${partnerName}? You will not be able to message each other.`)) {
-                          if (partnerId) await blockUser(currentUser.uid, partnerId);
-                        }
-                      }}
-                      className="w-full px-2.5 py-2 rounded-xl text-left flex items-center gap-2.5 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-rose-600 dark:text-rose-400 transition-colors cursor-pointer font-semibold text-xs"
-                    >
-                      <span className="w-7 h-7 rounded-lg bg-rose-100 dark:bg-rose-950/60 text-rose-600 flex items-center justify-center shrink-0">
-                        <Ban className="w-4 h-4" />
-                      </span>
-                      <span>Block Contact</span>
-                    </button>
-                  )}
-
-                  {isFriend && (
-                    <button
-                      type="button"
-                      onClick={async () => {
-                        setShowOptionsMenu(false);
-                        if (confirm(`Remove ${partnerName} from your friends list?`)) {
-                          if (partnerId) await removeFriend(currentUser.uid, partnerId);
-                        }
-                      }}
-                      className="w-full px-2.5 py-2 rounded-xl text-left flex items-center gap-2.5 hover:bg-amber-50 dark:hover:bg-amber-950/40 text-amber-700 dark:text-amber-300 transition-colors cursor-pointer font-semibold text-xs"
-                    >
-                      <span className="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 flex items-center justify-center shrink-0">
-                        <UserX className="w-4 h-4" />
-                      </span>
-                      <span>Remove Friend</span>
-                    </button>
-                  )}
-                </div>
-
-                {/* 4. DANGER ZONE: DELETE WHOLE CONVERSATION */}
-                <div className="p-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowOptionsMenu(false);
-                      setShowDeleteConversationModal(true);
-                    }}
-                    className="w-full px-2.5 py-2 rounded-xl text-left flex items-center gap-2.5 hover:bg-rose-50 dark:hover:bg-rose-950/50 text-rose-600 dark:text-rose-400 transition-colors cursor-pointer font-semibold text-xs group"
-                  >
-                    <span className="w-7 h-7 rounded-lg bg-rose-100 dark:bg-rose-950/80 text-rose-600 group-hover:bg-rose-200 dark:group-hover:bg-rose-900 flex items-center justify-center shrink-0">
-                      <Trash2 className="w-4 h-4" />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <div>Delete Conversation</div>
-                      <div className="text-[10px] opacity-60">Permanently delete all messages</div>
-                    </div>
-                  </button>
-                </div>
+                {/* Delete Entire Conversation */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowOptionsMenu(false);
+                    setShowDeleteConversationModal(true);
+                  }}
+                  className="w-full px-3 py-2 text-left hover:bg-rose-50 dark:hover:bg-rose-950/40 flex items-center gap-2 text-rose-600 dark:text-rose-400 border-t border-slate-100 dark:border-slate-800/80 cursor-pointer font-medium"
+                >
+                  <Trash2 className="w-3.5 h-3.5 text-rose-500" />
+                  <span>Delete Conversation</span>
+                </button>
               </div>
             )}
           </div>
@@ -1206,7 +992,7 @@ export const ActiveChat: React.FC<ActiveChatProps> = ({
       </header>
 
       {/* Messages Scroll Area */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-5 space-y-4 relative z-10 w-full max-w-full">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 relative z-10">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center p-8 text-slate-400 dark:text-slate-500">
             <div className={`w-16 h-16 rounded-3xl flex items-center justify-center text-2xl mb-3 shadow-inner ${
@@ -1355,7 +1141,7 @@ export const ActiveChat: React.FC<ActiveChatProps> = ({
 
       {/* Input Bar Section */}
       <div 
-        className={`border-t relative z-10 transition-colors w-full max-w-full overflow-hidden ${
+        className={`border-t relative z-10 transition-colors ${
           isHumorMode
             ? 'bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-amber-200 dark:border-amber-900/60'
             : isLoveMode 
@@ -1470,7 +1256,7 @@ export const ActiveChat: React.FC<ActiveChatProps> = ({
         {/* Emoji picker drawer */}
         {showEmojiPicker && !isBlockedByMe && !hasBlockedMe && isFriend && (
           <div 
-            className={`absolute bottom-full left-2 sm:left-4 mb-2 p-3 border rounded-2xl shadow-xl z-20 flex flex-wrap items-center gap-2 max-w-[calc(100vw-1.5rem)] sm:max-w-xs animate-in zoom-in-95 duration-150 ${
+            className={`absolute bottom-full left-4 mb-2 p-3 border rounded-2xl shadow-xl z-20 flex flex-wrap items-center gap-2 max-w-xs animate-in zoom-in-95 duration-150 ${
               isHumorMode
                 ? 'bg-white dark:bg-slate-900 border-amber-300 dark:border-amber-800'
                 : isLoveMode 
